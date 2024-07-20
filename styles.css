@@ -1,0 +1,44 @@
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Adjust columns as needed */
+    grid-gap: 4px;
+    margin-top: 20px;
+    justify-items: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+
+#status-board {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#turn-message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#winner-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: green;
+}
+
+.used {
+    opacity: 0.5; /* Make the cell semi-transparent */
+    pointer-events: none; /* Disable click events */
+}
+
+/* Adjust button styles */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
