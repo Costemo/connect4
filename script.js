@@ -36,43 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return rows >= 4 && rows <= 10 && cols >= 4 && cols <= 10;
     }
 
-    // function initializeBoard() {
-    //     // Clear previous board if any
-    //     gameBoard.innerHTML = '';
-
-    //     // Initialize the board array with zeros
-    //     board = [];
-    //     for (let row = 0; row < rows; row++) {
-    //         board[row] = Array.from({ length: cols }, () => 0);
-    //     }
-    
-    //     // Create HTML elements for the game board
-    //     for (let row = 0; row < rows; row++) {
-    //         for (let col = 0; col < cols; col++) {
-    //             let cell = document.createElement('div');
-    //             cell.classList.add('cell');
-    //             cell.dataset.row = row;
-    //             cell.dataset.col = col;
-    //             gameBoard.appendChild(cell);
-    //         }
-    //     }
-    
-    //     // Add event listeners to each cell for handling player moves
-    //     const cells = document.querySelectorAll('.cell');
-    //     cells.forEach(cell => {
-    //         cell.addEventListener('click', () => {
-    //             const col = parseInt(cell.getAttribute('data-col'));
-    //             dropPiece(col);
-    //         });
-    //     });
-    
-    //     // Reset initial game state
-    //     currentPlayer = 1;
-    //     winner = null;
-    //     turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
-    //     winnerMessage.textContent = '';
-    // }
-
       // Function to initialize the board
       function initializeBoard() {
         // Clear existing board
@@ -86,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
+        usedCells = [];
+
         // Create HTML elements for the game board
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -95,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 cell.setAttribute('data-col', col);
 
                 // Add 'used' class to cells that were used in previous rounds
-                if (board[row][col] !== 0) {
+                if (isCellUsed(row, col)) {
                     cell.classList.add('used');
                     cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
                 }
@@ -125,6 +90,11 @@ document.addEventListener("DOMContentLoaded", function() {
         winnerMessage.textContent = '';
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
+
+        // Function to check if a cell was used in previous rounds
+        function isCellUsed(row, col) {
+            return usedCells.some(cell => cell.row === row && cell.col === col);
+        }
     
       // Function to drop a piece into the specified column
       function dropPiece(col) {
@@ -136,13 +106,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 board[row][col] = currentPlayer;
                 const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
                 cell.style.backgroundColor = currentPlayer === 1 ? 'red' : 'yellow';
-                cell.classList.add('used'); // Mark cell as used for current round
+                // cell.classList.add('used'); // Mark cell as used for current round
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
 
-                    // Mark winning cells as used
-                    markWinningCells(row, col, currentPlayer);
+                    markAllCellsUsed();
 
                     setTimeout(nextRound, 3000); // Proceed to next round after 3 seconds
                 } else {
@@ -167,63 +136,93 @@ document.addEventListener("DOMContentLoaded", function() {
     //     initializeBoard();
     // }
     
-    function markWinningCells(row, col, player) {
-        const color = player === 1 ? 'red' : 'yellow';
+    // function markWinningCells(row, col, player) {
+    //     const winColor = player === 1 ? 'red' : 'yellow';
+    //     const loseColor = player === 1 ? 'yellow' : 'red';
         
-        // Mark horizontally
-        let count = 1;
-        for (let i = col - 1; i >= 0 && board[row][i] === player; i--) count++;
-        for (let i = col + 1; i < cols && board[row][i] === player; i++) count++;
-        if (count >= 4) {
-            for (let i = col - count + 1; i <= col + count - 1; i++) {
-                const cell = document.querySelector(`[data-row='${row}'][data-col='${i}']`);
-                cell.classList.add('used');
+    //     // Mark horizontally
+    //     let count = 1;
+    //     for (let i = col - 1; i >= 0 && board[row][i] === player; i--) count++;
+    //     for (let i = col + 1; i < cols && board[row][i] === player; i++) count++;
+    //     if (count >= 4) {
+    //         for (let i = col - count + 1; i <= col + count - 1; i++) {
+    //             const cell = document.querySelector(`[data-row='${row}'][data-col='${i}']`);
+    //             cell.classList.add('used');
+    //         }
+    //     }
+    
+    //     // Mark vertically
+    //     count = 1;
+    //     for (let i = row - 1; i >= 0 && board[i][col] === player; i--) count++;
+    //     for (let i = row + 1; i < rows && board[i][col] === player; i++) count++;
+    //     if (count >= 4) {
+    //         for (let i = row - count + 1; i <= row + count - 1; i++) {
+    //             const cell = document.querySelector(`[data-row='${i}'][data-col='${col}']`);
+    //             cell.classList.add('used');
+    //         }
+    //     }
+    
+    //     // Diagonal checks omitted for brevity (similar logic as horizontal and vertical)
+    // }
+
+
+    // Function to mark all used cells after the round
+    function markAllCellsUsed() {
+        // Mark all cells used in the current round
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                if (board[row][col] !== 0) {
+                    usedCells.push({ row, col }); // Track this cell as used
+                }
             }
         }
-    
-        // Mark vertically
-        count = 1;
-        for (let i = row - 1; i >= 0 && board[i][col] === player; i--) count++;
-        for (let i = row + 1; i < rows && board[i][col] === player; i++) count++;
-        if (count >= 4) {
-            for (let i = row - count + 1; i <= row + count - 1; i++) {
-                const cell = document.querySelector(`[data-row='${i}'][data-col='${col}']`);
+
+        // Apply 'used' class to cells that were used in previous rounds
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            const row = parseInt(cell.getAttribute('data-row'));
+            const col = parseInt(cell.getAttribute('data-col'));
+            if (isCellUsed(row, col)) {
                 cell.classList.add('used');
             }
-        }
-    
-        // Diagonal checks omitted for brevity (similar logic as horizontal and vertical)
+        });
     }
 
     function checkForWin(row, col) {
         const color = board[row][col];
-        
+    
         // Check horizontally
         let count = 1;
-        for (let i = col - 1; i >= 0 && board[row][i] === color; i--) count++;
-        for (let i = col + 1; i < cols && board[row][i] === color; i++) count++;
+        for (let i = col - 1; i >= 0 && board[row][i] === color && !document.querySelector(`[data-row='${row}'][data-col='${i}']`).classList.contains('used'); i--) count++;
+        for (let i = col + 1; i < cols && board[row][i] === color && !document.querySelector(`[data-row='${row}'][data-col='${i}']`).classList.contains('used'); i++) count++;
         if (count >= 4) return true;
-
+    
         // Check vertically
         count = 1;
-        for (let i = row - 1; i >= 0 && board[i][col] === color; i--) count++;
-        for (let i = row + 1; i < rows && board[i][col] === color; i++) count++;
+        // Check above
+        for (let i = row - 1; i >= 0 && board[i][col] === color && !document.querySelector(`[data-row='${i}'][data-col='${col}']`).classList.contains('used'); i--) count++;
+        // Check below
+        for (let i = row + 1; i < rows && board[i][col] === color && !document.querySelector(`[data-row='${i}'][data-col='${col}']`).classList.contains('used'); i++) count++;
         if (count >= 4) return true;
-
+    
         // Check diagonally (top-left to bottom-right)
         count = 1;
-        for (let i = 1; row - i >= 0 && col - i >= 0 && board[row - i][col - i] === color; i++) count++;
-        for (let i = 1; row + i < rows && col + i < cols && board[row + i][col + i] === color; i++) count++;
+        for (let i = 1; row - i >= 0 && col - i >= 0 && board[row - i][col - i] === color && !document.querySelector(`[data-row='${row - i}'][data-col='${col - i}']`).classList.contains('used'); i++) count++;
+        for (let i = 1; row + i < rows && col + i < cols && board[row + i][col + i] === color && !document.querySelector(`[data-row='${row + i}'][data-col='${col + i}']`).classList.contains('used'); i++) count++;
         if (count >= 4) return true;
-
+    
         // Check diagonally (top-right to bottom-left)
         count = 1;
-        for (let i = 1; row - i >= 0 && col + i < cols && board[row - i][col + i] === color; i++) count++;
-        for (let i = 1; row + i < rows && col - i >= 0 && board[row + i][col - i] === color; i++) count++;
+        for (let i = 1; row - i >= 0 && col + i < cols && board[row - i][col + i] === color && !document.querySelector(`[data-row='${row - i}'][data-col='${col + i}']`).classList.contains('used'); i++) count++;
+        for (let i = 1; row + i < rows && col - i >= 0 && board[row + i][col - i] === color && !document.querySelector(`[data-row='${row + i}'][data-col='${col - i}']`).classList.contains('used'); i++) count++;
         if (count >= 4) return true;
-        
+    
         return false;
     }
+    
+
+
+
 });
 
 
