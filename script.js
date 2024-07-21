@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let rows = 6;
-    let cols = 7;
+    let rows = 12;
+    let cols = 14;
     let currentPlayer = 1;
     let winner = null;
     let board = [];
@@ -36,27 +36,81 @@ document.addEventListener("DOMContentLoaded", function() {
         return rows >= 4 && rows <= 10 && cols >= 4 && cols <= 10;
     }
 
-    function initializeBoard() {
-        // Clear previous board if any
+    // function initializeBoard() {
+    //     // Clear previous board if any
+    //     gameBoard.innerHTML = '';
+
+    //     // Initialize the board array with zeros
+    //     board = [];
+    //     for (let row = 0; row < rows; row++) {
+    //         board[row] = Array.from({ length: cols }, () => 0);
+    //     }
+    
+    //     // Create HTML elements for the game board
+    //     for (let row = 0; row < rows; row++) {
+    //         for (let col = 0; col < cols; col++) {
+    //             let cell = document.createElement('div');
+    //             cell.classList.add('cell');
+    //             cell.dataset.row = row;
+    //             cell.dataset.col = col;
+    //             gameBoard.appendChild(cell);
+    //         }
+    //     }
+    
+    //     // Add event listeners to each cell for handling player moves
+    //     const cells = document.querySelectorAll('.cell');
+    //     cells.forEach(cell => {
+    //         cell.addEventListener('click', () => {
+    //             const col = parseInt(cell.getAttribute('data-col'));
+    //             dropPiece(col);
+    //         });
+    //     });
+    
+    //     // Reset initial game state
+    //     currentPlayer = 1;
+    //     winner = null;
+    //     turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+    //     winnerMessage.textContent = '';
+    // }
+
+      // Function to initialize the board
+      function initializeBoard() {
+        // Clear existing board
         gameBoard.innerHTML = '';
 
-        // Initialize the board array with zeros
-        board = [];
-        for (let row = 0; row < rows; row++) {
-            board[row] = Array.from({ length: cols }, () => 0);
+        // Reset board array only on initial game start
+        if (winner === null) {
+            board = [];
+            for (let row = 0; row < rows; row++) {
+                board[row] = Array(cols).fill(0); // Initialize each row with zeros
+            }
         }
-    
+
         // Create HTML elements for the game board
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                let cell = document.createElement('div');
+                const cell = document.createElement('div');
                 cell.classList.add('cell');
-                cell.dataset.row = row;
-                cell.dataset.col = col;
+                cell.setAttribute('data-row', row);
+                cell.setAttribute('data-col', col);
+
+                // Add 'used' class to cells that were used in previous rounds
+                if (board[row][col] !== 0) {
+                    cell.classList.add('used');
+                    cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
+                }
+
+                cell.addEventListener('click', function() {
+                    const col = parseInt(cell.getAttribute('data-col'));
+                    dropPiece(col);
+                })
+
                 gameBoard.appendChild(cell);
             }
         }
-    
+        
+        updateBoardStyle(); // Update cell sizes based on current board dimensions
+
         // Add event listeners to each cell for handling player moves
         const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
@@ -65,31 +119,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 dropPiece(col);
             });
         });
-    
-        // Reset initial game state
+
         currentPlayer = 1;
         winner = null;
-        turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
         winnerMessage.textContent = '';
+        turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
     
-    function dropPiece(col) {
-        if (winner !== null) return; // game over
-    
+      // Function to drop a piece into the specified column
+      function dropPiece(col) {
+        if (winner !== null) return; // Game over
+
         // Find the lowest available row in the specified column
         for (let row = rows - 1; row >= 0; row--) {
             if (board[row][col] === 0) {
                 board[row][col] = currentPlayer;
                 const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
                 cell.style.backgroundColor = currentPlayer === 1 ? 'red' : 'yellow';
+                cell.classList.add('used'); // Mark cell as used for current round
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
-                    
+
                     // Mark winning cells as used
                     markWinningCells(row, col, currentPlayer);
-    
-                    setTimeout(resetBoard, 3000); // Reset board after 3 seconds
+
+                    setTimeout(nextRound, 3000); // Proceed to next round after 3 seconds
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
                     turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
@@ -98,10 +153,19 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
+
+        // Function to proceed to the next round
+        function nextRound() {
+            // Reset only the game messages and switch player
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            winner = null;
+            winnerMessage.textContent = '';
+            turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+        }
     
-    function resetBoard() {
-        initializeBoard();
-    }
+    // function resetBoard() {
+    //     initializeBoard();
+    // }
     
     function markWinningCells(row, col, player) {
         const color = player === 1 ? 'red' : 'yellow';
@@ -161,4 +225,5 @@ document.addEventListener("DOMContentLoaded", function() {
         return false;
     }
 });
+
 
