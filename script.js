@@ -111,7 +111,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     winner = currentPlayer;
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
 
-                    markAllCellsUsed();
+                    markWinningCells(row, col);
+                    // markAllCellsUsed();
+                    markLosingCells()
 
                     setTimeout(nextRound, 3000); // Proceed to next round after 3 seconds
                 } else {
@@ -126,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Function to proceed to the next round
         function nextRound() {
             // Reset only the game messages and switch player
+            markAllCellsUsed();
             currentPlayer = currentPlayer === 1 ? 2 : 1;
             winner = null;
             winnerMessage.textContent = '';
@@ -136,35 +139,61 @@ document.addEventListener("DOMContentLoaded", function() {
     //     initializeBoard();
     // }
     
-    // function markWinningCells(row, col, player) {
-    //     const winColor = player === 1 ? 'red' : 'yellow';
-    //     const loseColor = player === 1 ? 'yellow' : 'red';
-        
-    //     // Mark horizontally
-    //     let count = 1;
-    //     for (let i = col - 1; i >= 0 && board[row][i] === player; i--) count++;
-    //     for (let i = col + 1; i < cols && board[row][i] === player; i++) count++;
-    //     if (count >= 4) {
-    //         for (let i = col - count + 1; i <= col + count - 1; i++) {
-    //             const cell = document.querySelector(`[data-row='${row}'][data-col='${i}']`);
-    //             cell.classList.add('used');
-    //         }
-    //     }
-    
-    //     // Mark vertically
-    //     count = 1;
-    //     for (let i = row - 1; i >= 0 && board[i][col] === player; i--) count++;
-    //     for (let i = row + 1; i < rows && board[i][col] === player; i++) count++;
-    //     if (count >= 4) {
-    //         for (let i = row - count + 1; i <= row + count - 1; i++) {
-    //             const cell = document.querySelector(`[data-row='${i}'][data-col='${col}']`);
-    //             cell.classList.add('used');
-    //         }
-    //     }
-    
-    //     // Diagonal checks omitted for brevity (similar logic as horizontal and vertical)
-    // }
+        // Function to mark winning cells with animation and change losing cells
+function markWinningCells(row, col) {
+    const color = currentPlayer === 1 ? 'red' : 'yellow';
+    const winningSequence = findWinningSequence(row, col);
 
+    if (winningSequence) {
+        // Sequentially apply animation to winning cells
+        for (let i = 0; i < winningSequence.length; i++) {
+            setTimeout(() => {
+                const { row, col } = winningSequence[i];
+                const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+                cellElement.style.backgroundColor = color;
+                cellElement.style.transform = 'scale(1.2)';
+                cellElement.style.transition = 'transform 0.3s ease';
+                if (i === winningSequence.length - 1) {
+                    setTimeout(() => {
+                        markLosingCells();
+                        setTimeout(nextRound, 1000); // Proceed to next round after a delay
+                    }, 300);
+                }
+            }, i * 200);
+        }
+    }
+}
+
+// Function to mark losing cells from the current round
+function markLosingCells() {
+    // Change color of losing cells to the winning player's color
+    const winningColor = currentPlayer === 1 ? 'red' : 'yellow';
+    const losingColor = currentPlayer === 1 ? 'yellow' : 'red';
+
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            if (board[row][col] !== currentPlayer && board[row][col] !== 0) {
+                const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+                cellElement.style.backgroundColor = losingColor;
+            }
+        }
+    }
+}
+
+
+        // // Function to mark winning cells with the winning player's color
+        // function markWinningCells(row, col) {
+        //     const color = currentPlayer === 1 ? 'red' : 'yellow';
+        //     const winningSequence = findWinningSequence(row, col);
+    
+        //     if (winningSequence) {
+        //         winningSequence.forEach(cell => {
+        //             const { row, col } = cell;
+        //             const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+        //             cellElement.style.backgroundColor = color;
+        //         });
+        //     }
+        // }
 
     // Function to mark all used cells after the round
     function markAllCellsUsed() {
@@ -220,7 +249,39 @@ document.addEventListener("DOMContentLoaded", function() {
         return false;
     }
     
-
+        // Function to find the winning sequence of cells
+        function findWinningSequence(row, col) {
+            const color = board[row][col];
+            const directions = [
+                { row: 0, col: 1 },  // Horizontal
+                { row: 1, col: 0 },  // Vertical
+                { row: 1, col: 1 },  // Diagonal \
+                { row: -1, col: 1 }  // Diagonal /
+            ];
+    
+            for (let dir of directions) {
+                let count = 1;
+                let sequence = [{ row, col }];
+    
+                // Check one direction
+                for (let delta = -1; delta <= 1; delta += 2) {
+                    let r = row + delta * dir.row;
+                    let c = col + delta * dir.col;
+                    while (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c] === color) {
+                        count++;
+                        sequence.push({ row: r, col: c });
+                        r += delta * dir.row;
+                        c += delta * dir.col;
+                    }
+                }
+    
+                if (count >= 4) {
+                    return sequence;
+                }
+            }
+    
+            return null;
+        }
 
 
 });
