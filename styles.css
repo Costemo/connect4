@@ -1,3 +1,9 @@
+html,body {
+    background: linear-gradient(135deg, black, blue);
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
 #game-board {
     display: grid;
     grid-template-columns: repeat(14, 25px); 
@@ -9,11 +15,21 @@
 }
 
 .cell {
-    width: 25px;
-    height: 25px;
-    border: 1px solid black;
-    background-color: white;
+    width: 20px;
+    height: 20px;
+    /* border: 1px solid black;
+    background-color: white; */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Transparent border */
+    background-color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
+    border-radius: 20px;
+    /* transition: transform 0.3s ease; */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+
+.cell.clicked {
+    transform: scale(1.4);
 }
 
 #status-board {

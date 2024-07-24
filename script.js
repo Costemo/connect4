@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
                 cell.style.backgroundColor = currentPlayer === 1 ? 'red' : 'yellow';
                 // cell.classList.add('used'); // Mark cell as used for current round
+                cell.classList.add('clicked');
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
