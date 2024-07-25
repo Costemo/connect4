@@ -10,6 +10,25 @@ document.addEventListener("DOMContentLoaded", function() {
     let resetBtn = document.getElementById('reset-btn');
     let resizeBtn = document.getElementById('resize-btn');
 
+    // Add event listener for Reset button
+resetBtn.addEventListener('click', function() {
+    resetBoard();
+});
+
+// Function to reset the game board and state
+function resetBoard() {
+    currentPlayer = 1;
+    winner = null;
+    board = [];
+    usedCells = [];
+    gameBoard.innerHTML = ''; // Clear the game board
+
+    // Reinitialize the board with new dimensions
+    initializeBoard();
+    winnerMessage.textContent = '';
+    turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+}
+
     // Initialize the game
     initializeBoard();
 
@@ -213,100 +232,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
         
-        
-        // function markLosingCells(callback) {
-        //     // Change color of losing cells to the winning player's color
-        //     const winningColor = currentPlayer === 1 ? 'red' : 'yellow';
-        //     const losingColor = currentPlayer === 1 ? 'yellow' : 'red';
-        
-        //     // Filter out cells that were already marked as used in the current round
-        //     const unusedLosingCells = [];
-        //     for (let row = 0; row < rows; row++) {
-        //         for (let col = 0; col < cols; col++) {
-        //             if (board[row][col] !== currentPlayer && board[row][col] !== 0 && !isCellUsed(row, col)) {
-        //                 unusedLosingCells.push({ row, col });
-        //             }
-        //         }
-        //     }
-        
-        //     // Apply animation to each losing cell one by one
-        //     unusedLosingCells.forEach((cell, index) => {
-        //         setTimeout(() => {
-        //             const cellElement = document.querySelector(`[data-row='${cell.row}'][data-col='${cell.col}']`);
-        //             // Apply pop animation and change color to winning color
-        //             cellElement.style.transform = 'scale(1.2)';
-        //             cellElement.style.transition = 'transform 0.3s ease';
-        //             cellElement.style.backgroundColor = winningColor;
-        
-        //             // After the last losing cell animation, trigger the callback
-        //             if (index === unusedLosingCells.length - 1 && typeof callback === 'function') {
-        //                 setTimeout(callback, 500); // Wait for the last animation to complete
-        //             }
-        //         }, index * 200); // Adjust delay (200 ms) as needed for proper animation timing
-        //     });
-        // }
-        
-
-// function markWinningCells(row, col) {
-//     const color = currentPlayer === 1 ? 'red' : 'yellow';
-//     const winningSequence = findWinningSequence(row, col);
-
-//     if (winningSequence) {
-//         let index = 0;
-//         const interval = setInterval(() => {
-//             if (index >= Math.min(winningSequence.length, 4)) {
-//                 clearInterval(interval); // Stop the interval after glowing cells three times
-//                 setTimeout(() => {
-//                     markLosingCells();
-//                     setTimeout(nextRound, 1000); // Proceed to next round after a delay
-//                 }, 1000);
-//                 return;
-//             }
-
-//             const { row, col } = winningSequence[index];
-//             const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
-
-//             // Glow effect
-//             cellElement.style.backgroundColor = color;
-//             cellElement.style.boxShadow = `0 0 20px ${color}, 0 0 20px ${color}, 0 0 20px ${color}`;
-//             cellElement.style.transition = 'box-shadow 0.5s ease';
-//             setTimeout(() => {
-//                 cellElement.style.boxShadow = 'none';
-//             }, 500);
-
-//             index++;
-//         }, 200); // Adjust interval timing (1000 ms = 1 second) as needed
-//     }
-// }
-
-
-// function markLosingCells() {
-//     // Change color of losing cells to the winning player's color
-//     const winningColor = currentPlayer === 1 ? 'red' : 'yellow';
-//     const losingColor = currentPlayer === 1 ? 'yellow' : 'red';
-
-//     // Filter out cells that were already marked as used in the current round
-//     const unusedLosingCells = [];
-//     for (let row = 0; row < rows; row++) {
-//         for (let col = 0; col < cols; col++) {
-//             if (board[row][col] !== currentPlayer && board[row][col] !== 0 && !isCellUsed(row, col)) {
-//                 unusedLosingCells.push({ row, col });
-//             }
-//         }
-//     }
-
-//     // Apply animation to each losing cell one by one
-//     unusedLosingCells.forEach((cell, index) => {
-//         setTimeout(() => {
-//             const cellElement = document.querySelector(`[data-row='${cell.row}'][data-col='${cell.col}']`);
-//             // Apply pop animation and change color to winning color
-//             cellElement.style.transform = 'scale(1.2)';
-//             cellElement.style.transition = 'transform 0.3s ease';
-//             cellElement.style.backgroundColor = winningColor;
-//         }, index * 200); // Adjust delay (200 ms) as needed for proper animation timing
-//     });
-// }
-
+    
 
     // Function to mark all used cells after the round
     function markAllCellsUsed() {
