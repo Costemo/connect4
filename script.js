@@ -132,6 +132,8 @@ document.addEventListener("DOMContentLoaded", function() {
         function nextRound() {
             // Reset only the game messages and switch player
             markAllCellsUsed();
+            
+            
             currentPlayer = currentPlayer === 1 ? 2 : 1;
             winner = null;
             winnerMessage.textContent = '';
@@ -151,7 +153,7 @@ function markWinningCells(row, col) {
 
     if (winningSequence) {
         // Sequentially apply animation to winning cells
-        for (let i = 0; i < winningSequence.length; i++) {
+        for (let i = 0; i < Math.min(winningSequence.length, 4); i++) {
             setTimeout(() => {
                 const { row, col } = winningSequence[i];
                 const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);

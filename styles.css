@@ -60,3 +60,7 @@ button {
     padding: 10px;
     cursor: pointer;
 }
+
+.turn-message {
+    color: white;
+}
