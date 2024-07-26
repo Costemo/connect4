@@ -2,6 +2,10 @@ html,body {
     background-color: rgb(27, 27, 27);
     background-repeat: no-repeat;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
 }
 
 #game-board {
@@ -34,18 +38,45 @@ html,body {
 #status-board {
     margin-top: 20px;
     text-align: center;
+    margin-bottom: 0;
+    padding-top: 50px;
+    padding-bottom: 5px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+     /* Adjust padding as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
 }
 
 #turn-message {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    width: 120px; /* Adjust the diameter as needed */
+    height: 120px; /* Adjust the diameter as needed */
+    border-radius: 50%; /* Makes the button circular */
+    
+    color: white; /* Text color */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    font-size: 16px; /* Text size, adjust as needed */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    align-self: center;
+    position: absolute;
+    z-index: 2;
+    margin-top: 75px;
+    
 }
+
+
 
 #winner-message {
     font-size: 24px;
     font-weight: bold;
-    color: green;
+    color: white;
+    position: relative;
 }
 
 .used {
@@ -64,4 +95,67 @@ button {
 
 .turn-message {
     color: white;
+}
+
+/* Add styles for setup section */
+#setup {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    position: relative;
+    color: white;
+}
+
+.player-cards {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 50px;
+    position: relative;
+    z-index: 1;
+
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+     /* Adjust padding as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.player1block {
+   
+}
+
+.start-btn {
+    width: 120px; /* Adjust the diameter as needed */
+    height: 120px; /* Adjust the diameter as needed */
+    border-radius: 50%; /* Makes the button circular */
+    background-color: #4CAF50; /* Green background, adjust as needed */
+    color: white; /* Text color */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    font-size: 16px; /* Text size, adjust as needed */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    align-self: center;
+    position: absolute;
+    z-index: 3;
+    margin-top: 75px;
+}
+
+#setup input {
+    margin: 5px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#setup button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }

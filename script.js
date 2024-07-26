@@ -9,11 +9,19 @@ document.addEventListener("DOMContentLoaded", function() {
     let winnerMessage = document.getElementById('winner-message');
     let resetBtn = document.getElementById('reset-btn');
     let resizeBtn = document.getElementById('resize-btn');
+    let startBtn = document.querySelector("#start-btn");
+    let player1ScoreDiv = document.getElementById('player-1-score');
+    let player2ScoreDiv = document.getElementById('player-2-score');
+
+
+    // gameBoard.style.display = 'none';
 
     // Add event listener for Reset button
 resetBtn.addEventListener('click', function() {
     resetBoard();
 });
+
+
 
 // Function to reset the game board and state
 function resetBoard() {
@@ -38,22 +46,22 @@ function resetBoard() {
     });
 
     // Add event listener for Resize button
-    resizeBtn.addEventListener('click', function() {
-        let newRows = parseInt(prompt("Enter new number of rows (min 4, max 10):", rows));
-        let newCols = parseInt(prompt("Enter new number of columns (min 4, max 10):", cols));
+    // resizeBtn.addEventListener('click', function() {
+    //     let newRows = parseInt(prompt("Enter new number of rows (min 4, max 10):", rows));
+    //     let newCols = parseInt(prompt("Enter new number of columns (min 4, max 10):", cols));
 
-        if (isValidSize(newRows, newCols)) {
-            rows = newRows;
-            cols = newCols;
-            resetBoard();
-        } else {
-            alert("Invalid board size! Please enter a number between 4 and 10.");
-        }
-    });
+    //     if (isValidSize(newRows, newCols)) {
+    //         rows = newRows;
+    //         cols = newCols;
+    //         resetBoard();
+    //     } else {
+    //         alert("Invalid board size! Please enter a number between 4 and 10.");
+    //     }
+    // });
 
-    function isValidSize(rows, cols) {
-        return rows >= 4 && rows <= 10 && cols >= 4 && cols <= 10;
-    }
+    // function isValidSize(rows, cols) {
+    //     return rows >= 4 && rows <= 10 && cols >= 4 && cols <= 10;
+    // }
 
       // Function to initialize the board
       function initializeBoard() {
@@ -92,6 +100,10 @@ function resetBoard() {
                 gameBoard.appendChild(cell);
             }
         }
+
+     
+        
+        
         
         updateBoardStyle(); // Update cell sizes based on current board dimensions
 
@@ -110,12 +122,39 @@ function resetBoard() {
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
 
+    function startGame() {
+        player1Name = player1NameInput.value.trim();
+        player2Name = player2NameInput.value.trim();
+        
+        if (player1Name === '' || player2Name === '') {
+            alert("Please enter names for both players.");
+            return;
+        }
+    
+        // Hide the setup section
+        
+        gameBoard.style.display = 'grid';
+        document.getElementById('status-board').style.display = 'block';
+        
+        // Transition start button into turn message
+        startBtn.style.transition = 'opacity 0.3s ease';
+        startBtn.style.opacity = '0'; // Fade out the start button
+    
+        setTimeout(() => {
+            startBtn.style.display = 'none'; // Hide the button after fading out
+            turnMessage.style.opacity = '1'; // Ensure turn message is visible
+        }, 300); // Match this timing with the CSS transition duration
+    
+        initializeBoard();
+    }
+    
+
         // Function to check if a cell was used in previous rounds
         function isCellUsed(row, col) {
             return usedCells.some(cell => cell.row === row && cell.col === col);
         }
 
-
+        startBtn.addEventListener('click', startGame);
 
     function dropPiece(col) {
         if (winner !== null) return; // Game over
@@ -140,6 +179,7 @@ function resetBoard() {
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
     
                     markWinningCells(row, col);
+                    updateScores();
                     return;
                 } else if (isBoardFull()) {
                     // Board is full and no winner
@@ -147,6 +187,7 @@ function resetBoard() {
                     const winner = scores.player1 > scores.player2 ? 'Player 1' : 'Player 2';
                     const scoreText = scores.player1 === scores.player2 ? 'It\'s a tie!' : `${winner} wins!`;
                     winnerMessage.textContent = `Game Over! ${scoreText}`;
+                    updateScores();
                     return;
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -182,6 +223,12 @@ function resetBoard() {
         console.log(`Player 2 Score: ${player2Score}`);
         
         return { player1: player1Score, player2: player2Score };
+    }
+
+    function updateScores() {
+        const scores = calculateScores();
+        player1ScoreDiv.textContent = `Player 1 Score: ${scores.player1}`;
+        player2ScoreDiv.textContent = `Player 2 Score: ${scores.player2}`;
     }
     
   

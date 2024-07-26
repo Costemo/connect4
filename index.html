@@ -7,14 +7,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="setup">
+        <div class="player-cards">
+        <div class="player1block">
+            <label for="player1-name">Player 1 Name:</label>
+            <input type="text" id="player1-name" placeholder="Enter Player 1 Name">
+            <div id="player-1-score"></div>
+        </div>
+        <div class="player2block">
+            <label for="player2-name">Player 2 Name:</label>
+            <input type="text" id="player2-name" placeholder="Enter Player 2 Name">
+            <div id="player-2-score"></div>
+        </div>
+        </div>
+        <button id="start-btn" class="start-btn">Start Game</button>
+        <div id="turn-message" class="turn-message">Player 1's Turn</div>
+    </div>
     <div id="game-board">
         <!-- Board will be dynamically generated here -->
     </div>
     <div id="status-board">
-        <div id="turn-message" class="turn-message">Player 1's Turn</div>
+        
         <div id="winner-message"></div>
         <button id="reset-btn">Reset Game</button>
-        
+        <button id="end-btn">End Game</button>
     </div>
 
     <script src="script.js"></script>
