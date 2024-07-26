@@ -6,6 +6,7 @@ html,body {
     flex-direction: column;
     justify-content: space-between;
     margin: 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 #game-board {
