@@ -114,28 +114,40 @@ function resetBoard() {
         function isCellUsed(row, col) {
             return usedCells.some(cell => cell.row === row && cell.col === col);
         }
-    
-      // Function to drop a piece into the specified column
-      function dropPiece(col) {
-        if (winner !== null) return; // Game over
 
+
+
+    function dropPiece(col) {
+        if (winner !== null) return; // Game over
+    
+        // Check if the column is valid and not full
+        if (col < 0 || col >= cols || board[0][col] !== 0) {
+            return; // Invalid move or column is full
+        }
+    
         // Find the lowest available row in the specified column
         for (let row = rows - 1; row >= 0; row--) {
             if (board[row][col] === 0) {
                 board[row][col] = currentPlayer;
                 const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
                 cell.style.backgroundColor = currentPlayer === 1 ? 'red' : 'yellow';
-                // cell.classList.add('used'); // Mark cell as used for current round
                 cell.classList.add('clicked');
+                
+                console.log(`Player ${currentPlayer} placed a piece at (${row}, ${col})`);
+
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
                     winnerMessage.textContent = `Player ${currentPlayer} wins!`;
-
+    
                     markWinningCells(row, col);
-                    // markAllCellsUsed();
-                    // markLosingCells()
-
-                    // setTimeout(nextRound, 3000); // Proceed to next round after 3 seconds
+                    return;
+                } else if (isBoardFull()) {
+                    // Board is full and no winner
+                    const scores = calculateScores();
+                    const winner = scores.player1 > scores.player2 ? 'Player 1' : 'Player 2';
+                    const scoreText = scores.player1 === scores.player2 ? 'It\'s a tie!' : `${winner} wins!`;
+                    winnerMessage.textContent = `Game Over! ${scoreText}`;
+                    return;
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
                     turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
@@ -144,7 +156,35 @@ function resetBoard() {
             }
         }
     }
+    
+    
 
+    function isBoardFull() {
+        return board.every(row => row.every(cell => cell !== 0));
+    }
+
+    function calculateScores() {
+        let player1Score = 0;
+        let player2Score = 0;
+        
+        // Iterate over all cells and count based on their current background color
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            const color = window.getComputedStyle(cell).backgroundColor;
+            if (color === 'rgb(255, 0, 0)') { // red
+                player1Score++;
+            } else if (color === 'rgb(255, 255, 0)') { // yellow
+                player2Score++;
+            }
+        });
+    
+        console.log(`Player 1 Score: ${player1Score}`);
+        console.log(`Player 2 Score: ${player2Score}`);
+        
+        return { player1: player1Score, player2: player2Score };
+    }
+    
+  
     let previousWinningCells = [];
 
         // // Function to proceed to the next round
