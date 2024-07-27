@@ -148,7 +148,7 @@ button {
     position: absolute;
     z-index: 3;
     margin-top: 75px;
-    display: none;
+    
 }
 
 #setup input {

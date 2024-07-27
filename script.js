@@ -9,12 +9,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let winnerMessage = document.getElementById('winner-message');
     let resetBtn = document.getElementById('reset-btn');
     let resizeBtn = document.getElementById('resize-btn');
-    let startBtn = document.querySelector("#start-btn");
+    let startBtn = document.getElementById("start-btn");
     let player1ScoreDiv = document.getElementById('player-1-score');
     let player2ScoreDiv = document.getElementById('player-2-score');
+    let player1NameInput = document.getElementById('player1-name');
+let player2NameInput = document.getElementById('player2-name');
 
 
-    // gameBoard.style.display = 'none';
+
+    gameBoard.style.display = 'none';
 
     // Add event listener for Reset button
 resetBtn.addEventListener('click', function() {
@@ -105,7 +108,7 @@ function resetBoard() {
         
         
         
-        updateBoardStyle(); // Update cell sizes based on current board dimensions
+        // updateBoardStyle(); // Update cell sizes based on current board dimensions
 
         // Add event listeners to each cell for handling player moves
         const cells = document.querySelectorAll('.cell');
