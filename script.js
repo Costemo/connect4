@@ -48,24 +48,6 @@ function resetBoard() {
         resetBoard();
     });
 
-    // Add event listener for Resize button
-    // resizeBtn.addEventListener('click', function() {
-    //     let newRows = parseInt(prompt("Enter new number of rows (min 4, max 10):", rows));
-    //     let newCols = parseInt(prompt("Enter new number of columns (min 4, max 10):", cols));
-
-    //     if (isValidSize(newRows, newCols)) {
-    //         rows = newRows;
-    //         cols = newCols;
-    //         resetBoard();
-    //     } else {
-    //         alert("Invalid board size! Please enter a number between 4 and 10.");
-    //     }
-    // });
-
-    // function isValidSize(rows, cols) {
-    //     return rows >= 4 && rows <= 10 && cols >= 4 && cols <= 10;
-    // }
-
       // Function to initialize the board
       function initializeBoard() {
         // Clear existing board
@@ -111,13 +93,13 @@ function resetBoard() {
         // updateBoardStyle(); // Update cell sizes based on current board dimensions
 
         // Add event listeners to each cell for handling player moves
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach(cell => {
-            cell.addEventListener('click', () => {
-                const col = parseInt(cell.getAttribute('data-col'));
-                dropPiece(col);
-            });
-        });
+        // const cells = document.querySelectorAll('.cell');
+        // cells.forEach(cell => {
+        //     cell.addEventListener('click', () => {
+        //         const col = parseInt(cell.getAttribute('data-col'));
+        //         dropPiece(col);
+        //     });
+        // });
 
         currentPlayer = 1;
         winner = null;
@@ -294,13 +276,16 @@ function resetBoard() {
             for (let row = 0; row < rows; row++) {
                 for (let col = 0; col < cols; col++) {
                     if (board[row][col] !== currentPlayer && board[row][col] !== 0 && !isCellUsed(row, col)) {
-                        unusedLosingCells.push({ row, col });
+                        const cellElement = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+                        if (!cellElement.classList.contains('used')) {
+                            unusedLosingCells.push({ row, col });
+                        }
                     }
                 }
             }
         
             // Track ongoing animations
-            animationCount = unusedLosingCells.length;
+            let animationCount = unusedLosingCells.length;
         
             // Apply animation to each losing cell one by one
             unusedLosingCells.forEach((cell, index) => {
@@ -321,6 +306,45 @@ function resetBoard() {
                 }, index * 200); // Adjust delay (200 ms) as needed for proper animation timing
             });
         }
+        
+
+        // function markLosingCells(callback) {
+        //     // Change color of losing cells to the winning player's color
+        //     const winningColor = currentPlayer === 1 ? 'red' : 'yellow';
+        //     const losingColor = currentPlayer === 1 ? 'yellow' : 'red';
+        
+        //     // Filter out cells that were already marked as used in the current round
+        //     const unusedLosingCells = [];
+        //     for (let row = 0; row < rows; row++) {
+        //         for (let col = 0; col < cols; col++) {
+        //             if (board[row][col] !== currentPlayer && board[row][col] !== 0 && !isCellUsed(row, col)) {
+        //                 unusedLosingCells.push({ row, col });
+        //             }
+        //         }
+        //     }
+        
+        //     // Track ongoing animations
+        //     animationCount = unusedLosingCells.length;
+        
+        //     // Apply animation to each losing cell one by one
+        //     unusedLosingCells.forEach((cell, index) => {
+        //         setTimeout(() => {
+        //             const cellElement = document.querySelector(`[data-row='${cell.row}'][data-col='${cell.col}']`);
+        //             // Apply pop animation and change color to winning color
+        //             cellElement.style.transform = 'scale(1.2)';
+        //             cellElement.style.transition = 'transform 0.3s ease';
+        //             cellElement.style.backgroundColor = winningColor;
+        
+        //             // After animation completes, decrease animation count
+        //             cellElement.addEventListener('transitionend', () => {
+        //                 animationCount--;
+        //                 if (animationCount === 0 && typeof callback === 'function') {
+        //                     callback(); // Trigger the callback when all animations are complete
+        //                 }
+        //             }, { once: true }); // Ensure the event listener is fired only once
+        //         }, index * 200); // Adjust delay (200 ms) as needed for proper animation timing
+        //     });
+        // }
         
     
 
