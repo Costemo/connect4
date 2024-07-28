@@ -110,11 +110,14 @@ button {
     margin-top: 0;
     position: relative;
     color: white;
+    
 }
 
 .player-cards {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
     padding-bottom: 50px;
     position: relative;
     z-index: 1;
@@ -127,8 +130,9 @@ button {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.player1block {
-   
+.player1block,
+.player2block {
+   flex: 1;
 }
 
 .start-btn {
@@ -154,7 +158,7 @@ button {
 #setup input {
     margin: 5px;
     padding: 5px;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 #setup button {
