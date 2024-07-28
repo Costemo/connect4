@@ -55,7 +55,7 @@ html,body {
     width: 120px; /* Adjust the diameter as needed */
     height: 120px; /* Adjust the diameter as needed */
     border-radius: 50%; /* Makes the button circular */
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
     color: black; /* Text color */
     display: flex;
     align-items: center; /* Center text vertically */

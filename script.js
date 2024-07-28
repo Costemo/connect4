@@ -107,31 +107,71 @@ function resetBoard() {
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
 
-    function startGame() {
-        player1Name = player1NameInput.value.trim();
-        player2Name = player2NameInput.value.trim();
-        
-        if (player1Name === '' || player2Name === '') {
-            alert("Please enter names for both players.");
-            return;
-        }
+    let player1Name = '';
+let player2Name = '';
+
+function startGame() {
+    player1Name = player1NameInput.value.trim();
+    player2Name = player2NameInput.value.trim();
     
-        // Hide the setup section
-        
-        gameBoard.style.display = 'grid';
-        document.getElementById('status-board').style.display = 'block';
-        
-        // Transition start button into turn message
-        startBtn.style.transition = 'opacity 0.3s ease';
-        startBtn.style.opacity = '0'; // Fade out the start button
-    
-        setTimeout(() => {
-            startBtn.style.display = 'none'; // Hide the button after fading out
-            turnMessage.style.opacity = '1'; // Ensure turn message is visible
-        }, 300); // Match this timing with the CSS transition duration
-    
-        initializeBoard();
+    if (player1Name === '' || player2Name === '') {
+        alert("Please enter names for both players.");
+        return;
     }
+
+    // Hide the setup section
+    gameBoard.style.display = 'grid';
+    document.getElementById('status-board').style.display = 'block';
+
+    // Transition start button into turn message
+    startBtn.style.transition = 'opacity 0.3s ease';
+    startBtn.style.opacity = '0'; // Fade out the start button
+
+    setTimeout(() => {
+        startBtn.style.display = 'none'; // Hide the button after fading out
+        turnMessage.style.opacity = '1'; // Ensure turn message is visible
+    }, 300); // Match this timing with the CSS transition duration
+
+    initializeBoard();
+    updateTurnMessage();
+}
+
+function updateTurnMessage() {
+    if (currentPlayer === 1) {
+        turnMessage.textContent = `${player1Name}'s Turn`;
+        turnMessage.style.backgroundColor = 'red';
+    } else {
+        turnMessage.textContent = `${player2Name}'s Turn`;
+        turnMessage.style.backgroundColor = 'yellow';
+    }
+}
+
+
+    // function startGame() {
+    //     player1Name = player1NameInput.value.trim();
+    //     player2Name = player2NameInput.value.trim();
+        
+    //     if (player1Name === '' || player2Name === '') {
+    //         alert("Please enter names for both players.");
+    //         return;
+    //     }
+    
+    //     // Hide the setup section
+        
+    //     gameBoard.style.display = 'grid';
+    //     document.getElementById('status-board').style.display = 'block';
+        
+    //     // Transition start button into turn message
+    //     startBtn.style.transition = 'opacity 0.3s ease';
+    //     startBtn.style.opacity = '0'; // Fade out the start button
+    
+    //     setTimeout(() => {
+    //         startBtn.style.display = 'none'; // Hide the button after fading out
+    //         turnMessage.style.opacity = '1'; // Ensure turn message is visible
+    //     }, 300); // Match this timing with the CSS transition duration
+    
+    //     initializeBoard();
+    // }
     
 
         // Function to check if a cell was used in previous rounds
@@ -177,6 +217,7 @@ function resetBoard() {
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
                     turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+                    updateTurnMessage();
                 }
                 return;
             }
