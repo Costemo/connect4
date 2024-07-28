@@ -269,10 +269,12 @@ function updateTurnMessage() {
             currentPlayer = currentPlayer === 1 ? 2 : 1;
             winner = null;
             winnerMessage.textContent = '';
-            turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+            // turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
 
             previousWinningCells = [];
             usedCells = [];
+
+            updateTurnMessage();
         }
     
 
