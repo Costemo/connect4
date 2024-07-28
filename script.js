@@ -19,6 +19,10 @@ let player2NameInput = document.getElementById('player2-name');
 
     gameBoard.style.display = 'none';
 
+//     player1ScoreDiv.style.display = 'none';
+// player2ScoreDiv.style.display = 'none';
+
+
     // Add event listener for Reset button
 resetBtn.addEventListener('click', function() {
     resetBoard();
@@ -37,7 +41,11 @@ function resetBoard() {
     // Reinitialize the board with new dimensions
     initializeBoard();
     winnerMessage.textContent = '';
-    turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
+    updateTurnMessage();
+    player1ScoreDiv.textContent = '0'; // Reset Player 1 score
+    player2ScoreDiv.textContent = '0'; // Reset Player 2 score
+    player1ScoreDiv.style.color = 'grey';
+    player2ScoreDiv.style.color = 'grey';
 }
 
     // Initialize the game
@@ -138,10 +146,10 @@ function startGame() {
 
 function updateTurnMessage() {
     if (currentPlayer === 1) {
-        turnMessage.textContent = `${player1Name}'s Turn`;
+        turnMessage.textContent = `${player1Name}`;
         turnMessage.style.backgroundColor = 'red';
     } else {
-        turnMessage.textContent = `${player2Name}'s Turn`;
+        turnMessage.textContent = `${player2Name}`;
         turnMessage.style.backgroundColor = 'yellow';
     }
 }
@@ -181,6 +189,9 @@ function updateTurnMessage() {
 
         startBtn.addEventListener('click', startGame);
 
+      
+        
+
     function dropPiece(col) {
         if (winner !== null) return; // Game over
     
@@ -201,7 +212,7 @@ function updateTurnMessage() {
 
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
-                    winnerMessage.textContent = `Player ${currentPlayer} wins!`;
+                    winnerMessage.textContent = `${currentPlayer === 1 ? player1Name : player2Name} Connected 4!`;
     
                     markWinningCells(row, col);
                     updateScores();
@@ -213,6 +224,10 @@ function updateTurnMessage() {
                     const scoreText = scores.player1 === scores.player2 ? 'It\'s a tie!' : `${winner} wins!`;
                     winnerMessage.textContent = `Game Over! ${scoreText}`;
                     updateScores();
+                    player1ScoreDiv.style.display = 'block'; // Show the player scores
+                    player1ScoreDiv.style.color = 'white';
+                player2ScoreDiv.style.display = 'block';
+                    player2ScoreDiv.style.color = 'white';
                     return;
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -253,8 +268,8 @@ function updateTurnMessage() {
 
     function updateScores() {
         const scores = calculateScores();
-        player1ScoreDiv.textContent = `Player 1 Score: ${scores.player1}`;
-        player2ScoreDiv.textContent = `Player 2 Score: ${scores.player2}`;
+        player1ScoreDiv.textContent = `${scores.player1}`;
+        player2ScoreDiv.textContent = `${scores.player2}`;
     }
     
   

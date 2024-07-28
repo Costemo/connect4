@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+
 html,body {
     background-color: rgb(27, 27, 27);
     background-repeat: no-repeat;
@@ -6,7 +9,7 @@ html,body {
     flex-direction: column;
     justify-content: space-between;
     margin: 0;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: 'Orbitron', sans-serif;
 }
 
 #game-board {
@@ -60,25 +63,33 @@ html,body {
     display: flex;
     align-items: center; /* Center text vertically */
     justify-content: center; /* Center text horizontally */
-    font-size: 16px; /* Text size, adjust as needed */
-    border: none; /* Remove default border */
+    font-size: 24px; /* Text size, adjust as needed */
+    border: 4px solid #333; /* Remove default border */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
     align-self: center;
     position: absolute;
     z-index: 2;
     margin-top: 75px;
-    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -2px 5px rgba(255, 255, 255, 0.6);
 }
-
 
 
 #winner-message {
     font-size: 24px;
     font-weight: bold;
     color: white;
-    position: relative;
+    position: fixed; /* Fix position relative to the viewport */
+    top: 25%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for centering */
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    padding: 10px; /* Padding around the text */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    z-index: 1000; /* High z-index to ensure it appears above other content */
     text-align: center;
+    display: ; /* Initially hidden */
 }
 
 .used {
@@ -97,6 +108,7 @@ button {
 
 .turn-message {
     color: white;
+    
 }
 
 /* Add styles for setup section */
@@ -113,12 +125,26 @@ button {
     
 }
 
+/* Remove any focus effects that change the appearance */
+#setup input:focus,
+#setup input:active {
+    background: rgba(255, 255, 255, 0.1); /* Keep the same background color */
+    outline: none; /* Remove the default focus outline */
+    border: 4px solid #333; /* Keep the same border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Keep the same shadow */
+}
+
+/* Optional: If you want to style placeholder text */
+#setup input::placeholder {
+    color: rgba(255, 255, 255, 0.5); /* Lighter color for placeholder text */
+}
+
 .player-cards {
     display: flex;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    padding-bottom: 50px;
+    padding-bottom: 15px;
     position: relative;
     z-index: 1;
 
@@ -144,7 +170,7 @@ button {
     display: flex;
     align-items: center; /* Center text vertically */
     justify-content: center; /* Center text horizontally */
-    font-size: 16px; /* Text size, adjust as needed */
+    font-size: 24px; /* Text size, adjust as needed */
     border: none; /* Remove default border */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
@@ -152,17 +178,69 @@ button {
     position: absolute;
     z-index: 3;
     margin-top: 75px;
+    font-weight: bold;
     
 }
 
-#setup input {
+.playerscore {
+    background-color: grey;
+    color: grey;
+    border-radius: 50%; 
+    width: 50px;
+    height: 50px;
     margin: 5px;
-    padding: 5px;
-    font-size: 12px;
+    
+    
+    font-size: 24px; /* Text size, adjust as needed */
+    border: 4px solid #333; /* Remove default border */
+    
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -2px 5px rgba(255, 255, 255, 0.6);
+}
+#player2-name {
+    text-align: end;
+}
+
+#setup input {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    border-radius: 15px; /* Rounded corners */
+    backdrop-filter: blur(10px); /* Blur the background behind the element */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+    padding: 5px; /* Space inside the element */
+    color: white; /* Text color */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: 5px;
+    width: 100px;
+    border: 4px solid #333; /* Remove default border */
+    font-size: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -2px 5px rgba(255, 255, 255, 0.6);
+}
+
+.player1block {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.player2block {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }
 
 #setup button {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.bottom-btn {
+    border: 4px solid #333; /* Remove default border */
+    
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -2px 5px rgba(255, 255, 255, 0.6);
+    background-color: grey;
+    color: white;
+    font-size: 16px;
 }
