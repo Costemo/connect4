@@ -56,64 +56,66 @@ function resetBoard() {
         resetBoard();
     });
 
-      // Function to initialize the board
-      function initializeBoard() {
+    function initializeBoard() {
         // Clear existing board
         gameBoard.innerHTML = '';
-
-        // Reset board array only on initial game start
-        if (winner === null) {
-            board = [];
-            for (let row = 0; row < rows; row++) {
-                board[row] = Array(cols).fill(0); // Initialize each row with zeros
-            }
-        }
-
+        board = [];
         usedCells = [];
-
+    
+        // Initialize the board array
+        for (let row = 0; row < rows; row++) {
+            board[row] = Array(cols).fill(0);
+        }
+    
         // Create HTML elements for the game board
+        let delay = 0; // Initialize delay
+        const baseDelay = 10; // Base delay per cell
+        const rowDelayIncrement = 50; // Delay increment for each new row
+    
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.setAttribute('data-row', row);
-                cell.setAttribute('data-col', col);
-
-                // Add 'used' class to cells that were used in previous rounds
-                if (isCellUsed(row, col)) {
-                    cell.classList.add('used');
-                    cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
-                }
-
-                cell.addEventListener('click', function() {
-                    const col = parseInt(cell.getAttribute('data-col'));
-                    dropPiece(col);
-                })
-
-                gameBoard.appendChild(cell);
+                setTimeout(() => {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.setAttribute('data-row', row);
+                    cell.setAttribute('data-col', col);
+                    cell.style.opacity = '0'; // Start with zero opacity for fade-in effect
+                    cell.style.transform = 'scale(0.8)'; // Slightly smaller initially
+    
+                    // Add 'used' class to cells that were used in previous rounds
+                    if (isCellUsed(row, col)) {
+                        cell.classList.add('used');
+                        cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
+                    }
+                    
+                    cell.addEventListener('click', function() {
+                        const col = parseInt(cell.getAttribute('data-col'));
+                        dropPiece(col);
+                    });
+    
+                    gameBoard.appendChild(cell);
+    
+                    // Animate cell appearance
+                    requestAnimationFrame(() => {
+                        cell.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        cell.style.opacity = '1';
+                        cell.style.transform = 'scale(1)';
+                    });
+    
+                }, delay);
+                delay += baseDelay; // Increase delay for each cell
             }
+            delay += rowDelayIncrement; // Additional delay between rows
         }
-
-     
-        
-        
-        
-        // updateBoardStyle(); // Update cell sizes based on current board dimensions
-
-        // Add event listeners to each cell for handling player moves
-        // const cells = document.querySelectorAll('.cell');
-        // cells.forEach(cell => {
-        //     cell.addEventListener('click', () => {
-        //         const col = parseInt(cell.getAttribute('data-col'));
-        //         dropPiece(col);
-        //     });
-        // });
-
+    
+        // Reset the turn message and other game state
         currentPlayer = 1;
         winner = null;
         winnerMessage.textContent = '';
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
+    
+    
 
     let player1Name = '';
 let player2Name = '';
