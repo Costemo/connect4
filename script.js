@@ -71,6 +71,7 @@ function resetBoard() {
     function initializeBoard() {
         // Clear existing board
         gameBoard.innerHTML = '';
+
         // Reset board array only on initial game start
         if (winner === null) {
             board = [];
@@ -78,31 +79,38 @@ function resetBoard() {
                 board[row] = Array(cols).fill(0); // Initialize each row with zeros
             }
         }
+
         usedCells = [];
-        // Create HTML elements for the game board
+
+  
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 const cell = document.createElement('div');
                 cell.classList.add('cell');
                 cell.setAttribute('data-row', row);
                 cell.setAttribute('data-col', col);
+
                 // Add 'used' class to cells that were used in previous rounds
                 if (isCellUsed(row, col)) {
                     cell.classList.add('used');
                     cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
                 }
+
                 cell.addEventListener('click', function() {
                     const col = parseInt(cell.getAttribute('data-col'));
                     dropPiece(col);
                 })
+
                 gameBoard.appendChild(cell);
             }
         }
+
      
         
         
         
         // updateBoardStyle(); // Update cell sizes based on current board dimensions
+
         // Add event listeners to each cell for handling player moves
         // const cells = document.querySelectorAll('.cell');
         // cells.forEach(cell => {
@@ -111,12 +119,12 @@ function resetBoard() {
         //         dropPiece(col);
         //     });
         // });
+
         currentPlayer = 1;
         winner = null;
         winnerMessage.textContent = '';
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
-    
 
     let player1Name = '';
 let player2Name = '';
