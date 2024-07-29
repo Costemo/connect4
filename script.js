@@ -37,15 +37,27 @@ function resetBoard() {
     board = [];
     usedCells = [];
     gameBoard.innerHTML = ''; // Clear the game board
+    startBtn.style.display = 'block';
+    player1NameInput.value = '';
+    player2NameInput.value = '';
+
 
     // Reinitialize the board with new dimensions
-    initializeBoard();
+    // initializeBoard();
     winnerMessage.textContent = '';
     updateTurnMessage();
     player1ScoreDiv.textContent = '0'; // Reset Player 1 score
     player2ScoreDiv.textContent = '0'; // Reset Player 2 score
     player1ScoreDiv.style.color = 'grey';
     player2ScoreDiv.style.color = 'grey';
+
+    startBtn.style.opacity = '0';
+        startBtn.style.display = 'block'; // Ensure button is visible before fading in
+
+        setTimeout(() => {
+            startBtn.style.transition = 'opacity 0.3s ease';
+            startBtn.style.opacity = '1';
+        }, 10);
 }
 
     // Initialize the game
@@ -56,11 +68,9 @@ function resetBoard() {
         resetBoard();
     });
 
-      // Function to initialize the board
-      function initializeBoard() {
+    function initializeBoard() {
         // Clear existing board
         gameBoard.innerHTML = '';
-
         // Reset board array only on initial game start
         if (winner === null) {
             board = [];
@@ -68,9 +78,7 @@ function resetBoard() {
                 board[row] = Array(cols).fill(0); // Initialize each row with zeros
             }
         }
-
         usedCells = [];
-
         // Create HTML elements for the game board
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -78,28 +86,23 @@ function resetBoard() {
                 cell.classList.add('cell');
                 cell.setAttribute('data-row', row);
                 cell.setAttribute('data-col', col);
-
                 // Add 'used' class to cells that were used in previous rounds
                 if (isCellUsed(row, col)) {
                     cell.classList.add('used');
                     cell.style.backgroundColor = board[row][col] === 1 ? 'red' : 'yellow';
                 }
-
                 cell.addEventListener('click', function() {
                     const col = parseInt(cell.getAttribute('data-col'));
                     dropPiece(col);
                 })
-
                 gameBoard.appendChild(cell);
             }
         }
-
      
         
         
         
         // updateBoardStyle(); // Update cell sizes based on current board dimensions
-
         // Add event listeners to each cell for handling player moves
         // const cells = document.querySelectorAll('.cell');
         // cells.forEach(cell => {
@@ -108,12 +111,12 @@ function resetBoard() {
         //         dropPiece(col);
         //     });
         // });
-
         currentPlayer = 1;
         winner = null;
         winnerMessage.textContent = '';
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
+    
 
     let player1Name = '';
 let player2Name = '';
@@ -189,7 +192,8 @@ function updateTurnMessage() {
 
         startBtn.addEventListener('click', startGame);
 
-      
+       
+        
         
 
     function dropPiece(col) {
@@ -277,7 +281,7 @@ function updateTurnMessage() {
 
         // // Function to proceed to the next round
         function nextRound() {
-            // Reset only the game messages and switch player
+            
             markAllCellsUsed();
             
             
@@ -366,45 +370,9 @@ function updateTurnMessage() {
         }
         
 
-        // function markLosingCells(callback) {
-        //     // Change color of losing cells to the winning player's color
-        //     const winningColor = currentPlayer === 1 ? 'red' : 'yellow';
-        //     const losingColor = currentPlayer === 1 ? 'yellow' : 'red';
         
-        //     // Filter out cells that were already marked as used in the current round
-        //     const unusedLosingCells = [];
-        //     for (let row = 0; row < rows; row++) {
-        //         for (let col = 0; col < cols; col++) {
-        //             if (board[row][col] !== currentPlayer && board[row][col] !== 0 && !isCellUsed(row, col)) {
-        //                 unusedLosingCells.push({ row, col });
-        //             }
-        //         }
-        //     }
+ 
         
-        //     // Track ongoing animations
-        //     animationCount = unusedLosingCells.length;
-        
-        //     // Apply animation to each losing cell one by one
-        //     unusedLosingCells.forEach((cell, index) => {
-        //         setTimeout(() => {
-        //             const cellElement = document.querySelector(`[data-row='${cell.row}'][data-col='${cell.col}']`);
-        //             // Apply pop animation and change color to winning color
-        //             cellElement.style.transform = 'scale(1.2)';
-        //             cellElement.style.transition = 'transform 0.3s ease';
-        //             cellElement.style.backgroundColor = winningColor;
-        
-        //             // After animation completes, decrease animation count
-        //             cellElement.addEventListener('transitionend', () => {
-        //                 animationCount--;
-        //                 if (animationCount === 0 && typeof callback === 'function') {
-        //                     callback(); // Trigger the callback when all animations are complete
-        //                 }
-        //             }, { once: true }); // Ensure the event listener is fired only once
-        //         }, index * 200); // Adjust delay (200 ms) as needed for proper animation timing
-        //     });
-        // }
-        
-    
 
     // Function to mark all used cells after the round
     function markAllCellsUsed() {
@@ -424,6 +392,7 @@ function updateTurnMessage() {
             const col = parseInt(cell.getAttribute('data-col'));
             if (isCellUsed(row, col)) {
                 cell.classList.add('used');
+                
             }
         });
     }
