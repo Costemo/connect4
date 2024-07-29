@@ -35,6 +35,88 @@ resetBtn.addEventListener('click', function() {
 });
 
 
+function reorganizeCellsByColor() {
+    const cells = Array.from(document.querySelectorAll('.cell'));
+    const gameBoard = document.getElementById('game-board'); // Ensure you get the correct element
+
+    // Separate cells by color
+    const redCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 0, 0)');
+    const yellowCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 255, 0)');
+
+    // Add pop-out class to all cells
+    cells.forEach(cell => {
+        cell.classList.add('pop-out');
+    });
+
+    // Wait for the pop-out animation to finish
+    setTimeout(() => {
+        // Clear the board
+        gameBoard.innerHTML = '';
+
+        // Re-add red cells first
+        redCells.forEach(cell => {
+            cell.style.backgroundColor = 'red';
+            gameBoard.appendChild(cell);
+        });
+
+        // Re-add yellow cells next
+        yellowCells.forEach(cell => {
+            cell.style.backgroundColor = 'yellow';
+            gameBoard.appendChild(cell);
+        });
+
+        // Add pop-in class to all cells
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.classList.add('pop-in');
+        });
+
+        // Remove pop-out and pop-in classes after animation to reset styles
+        setTimeout(() => {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.remove('pop-out', 'pop-in');
+            });
+        }, 500); // Duration should match the animation duration
+    }, 500); // Duration should match the pop-out animation duration
+}
+
+
+// function reorganizeCellsByColor() {
+//     const cells = Array.from(document.querySelectorAll('.cell'));
+//     const gameBoard = document.getElementById('game-board'); // Ensure you get the correct element
+    
+//     // Separate cells by color
+//     const redCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 0, 0)');
+//     const yellowCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 255, 0)');
+    
+//     // Clear the board
+//     gameBoard.innerHTML = '';
+    
+//     // Re-add red cells first
+//     redCells.forEach(cell => {
+//         cell.style.backgroundColor = 'red';
+//         cell.style.transition = 'none'; // Disable transition for immediate re-positioning
+//         gameBoard.appendChild(cell);
+//     });
+    
+//     // Re-add yellow cells next
+//     yellowCells.forEach(cell => {
+//         cell.style.backgroundColor = 'yellow';
+//         cell.style.transition = 'none'; // Disable transition for immediate re-positioning
+//         gameBoard.appendChild(cell);
+//     });
+    
+//     // Re-enable transition after repositioning
+//     setTimeout(() => {
+//         document.querySelectorAll('.cell').forEach(cell => {
+//             cell.style.transition = 'transform 0.3s ease';
+//         });
+//     }, 100);
+// }
+
+
+
+
+
 
 // Function to reset the game board and state
 function resetBoard() {
@@ -256,6 +338,8 @@ function updateTurnMessage() {
                     const winner = scores.player1 > scores.player2 ? 'Player 1' : 'Player 2';
                     const scoreText = scores.player1 === scores.player2 ? 'It\'s a tie!' : `${winner} wins!`;
                     winnerMessage.textContent = `Game Over! ${scoreText}`;
+                    cell.style.opacity = '1';
+                    reorganizeCellsByColor();
                     updateScores();
                     player1ScoreDiv.style.display = 'block'; // Show the player scores
                     player1ScoreDiv.style.color = 'white';
