@@ -113,40 +113,88 @@ function reorganizeCellsByColor() {
 //     }, 100);
 // }
 
-
-
-
-
-
-// Function to reset the game board and state
 function resetBoard() {
-    currentPlayer = 1;
-    winner = null;
-    board = [];
-    usedCells = [];
-    gameBoard.innerHTML = ''; // Clear the game board
-    startBtn.style.display = 'block';
-    player1NameInput.value = '';
-    player2NameInput.value = '';
+    // Apply fade-out effect to the game board
+    gameBoard.style.transition = 'opacity 0.5s ease';
+    gameBoard.style.opacity = '0';
 
+    // Start closing the barn doors after a short delay
+    setTimeout(() => {
+        barnDoors.style.display = 'block';
+        // Add the closed class to the barn doors
+        barnDoors.classList.add('closed');
+        barnDoors.classList.remove('open');
+    }, 100); // Small delay to ensure the board's fade-out is noticeable
 
-    // Reinitialize the board with new dimensions
-    // initializeBoard();
-    winnerMessage.textContent = '';
-    updateTurnMessage();
-    player1ScoreDiv.textContent = '0'; // Reset Player 1 score
-    player2ScoreDiv.textContent = '0'; // Reset Player 2 score
-    player1ScoreDiv.style.color = 'grey';
-    player2ScoreDiv.style.color = 'grey';
+    // Set a timeout to wait for the fade-out effect to finish
+    setTimeout(() => {
+        // Clear the game board
+        gameBoard.innerHTML = ''; // Clear the game board
 
-    startBtn.style.opacity = '0';
+        // Reset game state
+        currentPlayer = 1;
+        winner = null;
+        board = [];
+        usedCells = [];
+        startBtn.style.display = 'block';
+        player1NameInput.value = '';
+        player2NameInput.value = '';
+        winnerMessage.textContent = '';
+        updateTurnMessage();
+        player1ScoreDiv.textContent = '0'; // Reset Player 1 score
+        player2ScoreDiv.textContent = '0'; // Reset Player 2 score
+        player1ScoreDiv.style.color = 'grey';
+        player2ScoreDiv.style.color = 'grey';
+
+        startBtn.style.opacity = '0';
         startBtn.style.display = 'block'; // Ensure button is visible before fading in
 
         setTimeout(() => {
             startBtn.style.transition = 'opacity 0.3s ease';
             startBtn.style.opacity = '1';
         }, 10);
+
+        // Reinitialize the board with new dimensions
+        // initializeBoard();
+
+        // Reset the fade-out effect after board is reinitialized
+        setTimeout(() => {
+            gameBoard.style.opacity = '1'; // Fade-in effect for the board
+        }, 100); // Short delay to ensure the board is cleared before fading in
+    }, 600); // Duration should match the fade-out duration plus a bit for barn doors
 }
+
+
+
+// Function to reset the game board and state
+// function resetBoard() {
+//     currentPlayer = 1;
+//     winner = null;
+//     board = [];
+//     usedCells = [];
+//     gameBoard.innerHTML = ''; // Clear the game board
+//     startBtn.style.display = 'block';
+//     player1NameInput.value = '';
+//     player2NameInput.value = '';
+
+
+//     // Reinitialize the board with new dimensions
+//     // initializeBoard();
+//     winnerMessage.textContent = '';
+//     updateTurnMessage();
+//     player1ScoreDiv.textContent = '0'; // Reset Player 1 score
+//     player2ScoreDiv.textContent = '0'; // Reset Player 2 score
+//     player1ScoreDiv.style.color = 'grey';
+//     player2ScoreDiv.style.color = 'grey';
+
+//     startBtn.style.opacity = '0';
+//         startBtn.style.display = 'block'; // Ensure button is visible before fading in
+
+//         setTimeout(() => {
+//             startBtn.style.transition = 'opacity 0.3s ease';
+//             startBtn.style.opacity = '1';
+//         }, 10);
+// }
 
     // Initialize the game
     initializeBoard();
