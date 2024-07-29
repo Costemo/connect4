@@ -12,6 +12,92 @@ html,body {
     font-family: 'Orbitron', sans-serif;
 }
 
+#barn-doors {
+    position: fixed;
+
+   
+    
+    top: 115px;
+    
+    left: 0;
+    width: 100%;
+    height: 475px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: transform 1s ease-in-out;
+}
+
+.barn-door {
+    position: absolute;
+
+    
+    width: 50%;
+    height: 475px;
+    transition: transform 1s ease-in-out;
+}
+
+.barn-door.left {
+
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+     /* Adjust padding as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    left: 0;
+    transform-origin: left;
+    
+    transform: translateX(0);
+}
+
+.barn-door.right {
+
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+     /* Adjust padding as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    right: 0;
+    transform-origin: right;
+    
+    transform: translateX(0);
+}
+
+#barn-doors.open .barn-door.left {
+    transform: translateX(-100%); /* Move left door to the left */
+}
+
+#barn-doors.open .barn-door.right {
+    transform: translateX(100%); /* Move right door to the right */
+}
+
+/* Add styles for cell pop animation */
+@keyframes pop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.cell.pop {
+    animation: pop 0.5s ease-out; /* Adjust duration and timing function as needed */
+}
+
+
+
 #game-board {
     display: grid;
     grid-template-columns: repeat(14, 25px); 
@@ -52,6 +138,7 @@ html,body {
      /* Adjust padding as needed */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white;
+    z-index: 2;
 }
 
 #turn-message {
@@ -122,7 +209,7 @@ button {
     margin-top: 0;
     position: relative;
     color: white;
-    
+    z-index: 2;
 }
 
 /* Remove any focus effects that change the appearance */

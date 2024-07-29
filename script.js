@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
 let player2NameInput = document.getElementById('player2-name');
 
 
+const barnDoors = document.getElementById('barn-doors');
+const leftDoor = document.querySelector('.barn-door.left');
+const rightDoor = document.querySelector('.barn-door.right');
+
+
+
 
     gameBoard.style.display = 'none';
 
@@ -72,6 +78,13 @@ function resetBoard() {
         // Clear existing board
         gameBoard.innerHTML = '';
 
+        
+
+        setTimeout(() => {
+            
+            document.getElementById('status-board').style.display = 'block';
+        }, 2000);
+
         // Reset board array only on initial game start
         if (winner === null) {
             board = [];
@@ -106,19 +119,14 @@ function resetBoard() {
         }
 
      
+        setTimeout(() => {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.add('pop'); // Add 'pop' class to animate cells
+            });
+        }, 100);
         
         
-        
-        // updateBoardStyle(); // Update cell sizes based on current board dimensions
-
-        // Add event listeners to each cell for handling player moves
-        // const cells = document.querySelectorAll('.cell');
-        // cells.forEach(cell => {
-        //     cell.addEventListener('click', () => {
-        //         const col = parseInt(cell.getAttribute('data-col'));
-        //         dropPiece(col);
-        //     });
-        // });
+       
 
         currentPlayer = 1;
         winner = null;
@@ -126,8 +134,12 @@ function resetBoard() {
         turnMessage.textContent = `Player ${currentPlayer}'s Turn`;
     }
 
+   
+
     let player1Name = '';
 let player2Name = '';
+
+
 
 function startGame() {
     player1Name = player1NameInput.value.trim();
@@ -139,8 +151,17 @@ function startGame() {
     }
 
     // Hide the setup section
-    gameBoard.style.display = 'grid';
+    
     document.getElementById('status-board').style.display = 'block';
+
+    barnDoors.classList.add('open');
+    
+        setTimeout(() => {
+            barnDoors.style.display = 'none'; // Hide barn doors after animation
+            gameBoard.style.display = 'grid';
+            document.getElementById('status-board').style.display = 'block'; // Show status board
+            turnMessage.style.opacity = '1'; // Show turn message
+        }, 1000); 
 
     // Transition start button into turn message
     startBtn.style.transition = 'opacity 0.3s ease';
