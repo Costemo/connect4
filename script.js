@@ -20,7 +20,7 @@ const barnDoors = document.getElementById('barn-doors');
 const leftDoor = document.querySelector('.barn-door.left');
 const rightDoor = document.querySelector('.barn-door.right');
 
-
+winnerMessage.textContent = '';
 
 gameBoard.style.opacity = '0';
     // gameBoard.style.display = 'none';
@@ -292,6 +292,8 @@ function updateTurnMessage() {
                 if (checkForWin(row, col)) {
                     winner = currentPlayer;
                     winnerMessage.textContent = `${currentPlayer === 1 ? player1Name : player2Name} Connected 4!`;
+
+                    winnerMessage.classList.add('show');
     
                     markWinningCells(row, col);
                     updateScores();
@@ -360,6 +362,7 @@ function updateTurnMessage() {
         function nextRound() {
             
             markAllCellsUsed();
+            winnerMessage.classList.remove('show');
             
             
             currentPlayer = currentPlayer === 1 ? 2 : 1;

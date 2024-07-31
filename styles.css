@@ -200,7 +200,38 @@ html,body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white;
     z-index: 2;
+    position: relative;
+    
+    
+    text-wrap: nowrap;
 }
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#winner-message {
+    /* Initial styles for #winner-message */
+    transition: opacity 0.3s ease;
+    opacity: 0; /* Start hidden */
+}
+
+#winner-message.show {
+    animation: popIn 0.5s ease-out; /* Apply popIn animation */
+    opacity: 1; /* Ensure it's visible after animation */
+}
+
 
 #turn-message {
     width: 120px; /* Adjust the diameter as needed */
@@ -224,20 +255,20 @@ html,body {
 
 
 #winner-message {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: white;
-    position: fixed; /* Fix position relative to the viewport */
-    top: 25%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for centering */
-    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    background: rgba(55, 216, 221, 0.8); /* Semi-transparent background */
     padding: 10px; /* Padding around the text */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     z-index: 1000; /* High z-index to ensure it appears above other content */
     text-align: center;
-    display: ; /* Initially hidden */
+    transform: translate(-50%, -50%);
 }
 
 .used {
@@ -337,9 +368,13 @@ button {
     width: 50px;
     height: 50px;
     margin: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     
-    font-size: 24px; /* Text size, adjust as needed */
+    font-size: 22px; /* Text size, adjust as needed */
     border: 4px solid #333; /* Remove default border */
     
     transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
