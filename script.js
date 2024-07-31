@@ -22,8 +22,8 @@ const rightDoor = document.querySelector('.barn-door.right');
 
 
 
-
-    gameBoard.style.display = 'none';
+gameBoard.style.opacity = '0';
+    // gameBoard.style.display = 'none';
 
 //     player1ScoreDiv.style.display = 'none';
 // player2ScoreDiv.style.display = 'none';
@@ -80,121 +80,58 @@ function reorganizeCellsByColor() {
 }
 
 
-// function reorganizeCellsByColor() {
-//     const cells = Array.from(document.querySelectorAll('.cell'));
-//     const gameBoard = document.getElementById('game-board'); // Ensure you get the correct element
-    
-//     // Separate cells by color
-//     const redCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 0, 0)');
-//     const yellowCells = cells.filter(cell => window.getComputedStyle(cell).backgroundColor === 'rgb(255, 255, 0)');
-    
-//     // Clear the board
-//     gameBoard.innerHTML = '';
-    
-//     // Re-add red cells first
-//     redCells.forEach(cell => {
-//         cell.style.backgroundColor = 'red';
-//         cell.style.transition = 'none'; // Disable transition for immediate re-positioning
-//         gameBoard.appendChild(cell);
-//     });
-    
-//     // Re-add yellow cells next
-//     yellowCells.forEach(cell => {
-//         cell.style.backgroundColor = 'yellow';
-//         cell.style.transition = 'none'; // Disable transition for immediate re-positioning
-//         gameBoard.appendChild(cell);
-//     });
-    
-//     // Re-enable transition after repositioning
-//     setTimeout(() => {
-//         document.querySelectorAll('.cell').forEach(cell => {
-//             cell.style.transition = 'transform 0.3s ease';
-//         });
-//     }, 100);
-// }
 
 function resetBoard() {
     // Apply fade-out effect to the game board
     gameBoard.style.transition = 'opacity 0.5s ease';
     gameBoard.style.opacity = '0';
+    barnDoors.style.display = "block";
 
     // Start closing the barn doors after a short delay
     setTimeout(() => {
-        barnDoors.style.display = 'block';
-        // Add the closed class to the barn doors
-        barnDoors.classList.add('closed');
+        // barnDoors.style.display = 'block';
+        // Remove the open class and add closed class for the barn doors
         barnDoors.classList.remove('open');
-    }, 100); // Small delay to ensure the board's fade-out is noticeable
+        barnDoors.classList.add('closed');
 
-    // Set a timeout to wait for the fade-out effect to finish
-    setTimeout(() => {
-        // Clear the game board
-        gameBoard.innerHTML = ''; // Clear the game board
-
-        // Reset game state
-        currentPlayer = 1;
-        winner = null;
-        board = [];
-        usedCells = [];
-        startBtn.style.display = 'block';
-        player1NameInput.value = '';
-        player2NameInput.value = '';
-        winnerMessage.textContent = '';
-        updateTurnMessage();
-        player1ScoreDiv.textContent = '0'; // Reset Player 1 score
-        player2ScoreDiv.textContent = '0'; // Reset Player 2 score
-        player1ScoreDiv.style.color = 'grey';
-        player2ScoreDiv.style.color = 'grey';
-
-        startBtn.style.opacity = '0';
-        startBtn.style.display = 'block'; // Ensure button is visible before fading in
-
+        // Wait for the barn doors animation to finish before clearing the board
         setTimeout(() => {
-            startBtn.style.transition = 'opacity 0.3s ease';
-            startBtn.style.opacity = '1';
-        }, 10);
+            // Clear the game board
+            gameBoard.innerHTML = ''; // Clear the game board
 
-        // Reinitialize the board with new dimensions
-        // initializeBoard();
+            // Reset game state
+            currentPlayer = 1;
+            winner = null;
+            board = [];
+            usedCells = [];
+            startBtn.style.display = 'block';
+            player1NameInput.value = '';
+            player2NameInput.value = '';
+            winnerMessage.textContent = '';
+            updateTurnMessage();
+            player1ScoreDiv.textContent = '0'; // Reset Player 1 score
+            player2ScoreDiv.textContent = '0'; // Reset Player 2 score
+            player1ScoreDiv.style.color = 'grey';
+            player2ScoreDiv.style.color = 'grey';
 
-        // Reset the fade-out effect after board is reinitialized
-        setTimeout(() => {
-            gameBoard.style.opacity = '1'; // Fade-in effect for the board
-        }, 100); // Short delay to ensure the board is cleared before fading in
-    }, 600); // Duration should match the fade-out duration plus a bit for barn doors
+            startBtn.style.opacity = '0';
+            startBtn.style.display = 'block'; // Ensure button is visible before fading in
+
+            setTimeout(() => {
+                startBtn.style.transition = 'opacity 0.3s ease';
+                startBtn.style.opacity = '1';
+            }, 10);
+
+            // Reset the fade-out effect after board is reinitialized
+            // setTimeout(() => {
+            //     gameBoard.style.opacity = '1'; // Fade-in effect for the board
+            // }, 100); // Short delay to ensure the board is cleared before fading in
+
+        }, 1000); // Duration to match the barn doors animation
+    }, 500); // Small delay to ensure the board's fade-out is noticeable
 }
 
 
-
-// Function to reset the game board and state
-// function resetBoard() {
-//     currentPlayer = 1;
-//     winner = null;
-//     board = [];
-//     usedCells = [];
-//     gameBoard.innerHTML = ''; // Clear the game board
-//     startBtn.style.display = 'block';
-//     player1NameInput.value = '';
-//     player2NameInput.value = '';
-
-
-//     // Reinitialize the board with new dimensions
-//     // initializeBoard();
-//     winnerMessage.textContent = '';
-//     updateTurnMessage();
-//     player1ScoreDiv.textContent = '0'; // Reset Player 1 score
-//     player2ScoreDiv.textContent = '0'; // Reset Player 2 score
-//     player1ScoreDiv.style.color = 'grey';
-//     player2ScoreDiv.style.color = 'grey';
-
-//     startBtn.style.opacity = '0';
-//         startBtn.style.display = 'block'; // Ensure button is visible before fading in
-
-//         setTimeout(() => {
-//             startBtn.style.transition = 'opacity 0.3s ease';
-//             startBtn.style.opacity = '1';
-//         }, 10);
-// }
 
     // Initialize the game
     initializeBoard();
@@ -285,10 +222,14 @@ function startGame() {
     document.getElementById('status-board').style.display = 'block';
 
     barnDoors.classList.add('open');
+    barnDoors.classList.remove('closed');
     
         setTimeout(() => {
+            
             barnDoors.style.display = 'none'; // Hide barn doors after animation
-            gameBoard.style.display = 'grid';
+            // gameBoard.style.display = 'grid';
+            gameBoard.style.transition = 'opacity 0.5s ease';
+    gameBoard.style.opacity = '1';
             document.getElementById('status-board').style.display = 'block'; // Show status board
             turnMessage.style.opacity = '1'; // Show turn message
         }, 1000); 
@@ -299,6 +240,7 @@ function startGame() {
 
     setTimeout(() => {
         startBtn.style.display = 'none'; // Hide the button after fading out
+        // gameBoard.style.display = 'grid';
         turnMessage.style.opacity = '1'; // Ensure turn message is visible
     }, 300); // Match this timing with the CSS transition duration
 
@@ -316,32 +258,6 @@ function updateTurnMessage() {
     }
 }
 
-
-    // function startGame() {
-    //     player1Name = player1NameInput.value.trim();
-    //     player2Name = player2NameInput.value.trim();
-        
-    //     if (player1Name === '' || player2Name === '') {
-    //         alert("Please enter names for both players.");
-    //         return;
-    //     }
-    
-    //     // Hide the setup section
-        
-    //     gameBoard.style.display = 'grid';
-    //     document.getElementById('status-board').style.display = 'block';
-        
-    //     // Transition start button into turn message
-    //     startBtn.style.transition = 'opacity 0.3s ease';
-    //     startBtn.style.opacity = '0'; // Fade out the start button
-    
-    //     setTimeout(() => {
-    //         startBtn.style.display = 'none'; // Hide the button after fading out
-    //         turnMessage.style.opacity = '1'; // Ensure turn message is visible
-    //     }, 300); // Match this timing with the CSS transition duration
-    
-    //     initializeBoard();
-    // }
     
 
         // Function to check if a cell was used in previous rounds
