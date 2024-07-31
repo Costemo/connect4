@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+@media (max-width: 600px) {
+    #barn-doors {
+        height: calc(100vh - 150px); /* Adjust for smaller screens */
+        top: calc(70px + 1vh); /* Adjust top for smaller screens */
+    }
+}
+
 
 html,body {
     background-color: rgb(27, 27, 27);
