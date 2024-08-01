@@ -46,9 +46,10 @@ html,body {
 }
 
 .barn-door.left {
-
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    background-image: url(images/metallic-background.jpg);
+    filter: brightness(60%);
+     /* Semi-transparent white */
+    ; /* Apply blur effect to the area behind the element */
     border-radius: 10px; /* Rounded corners for a softer look */
     border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
      /* Adjust padding as needed */
@@ -61,11 +62,12 @@ html,body {
 }
 
 .barn-door.right {
-
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    background-image: url(images/metallic-background.jpg);
+    filter: brightness(60%);
+     /* Semi-transparent white */
     backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
     border-radius: 10px; /* Rounded corners for a softer look */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+    border: 1px solid rgba(34, 26, 26, 0.993); /* Subtle border to enhance the glass effect */
      /* Adjust padding as needed */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
@@ -190,12 +192,14 @@ html,body {
     margin-top: 20px;
     text-align: center;
     margin-bottom: 0;
-    padding-top: 50px;
+    padding-top: 30px;
     padding-bottom: 5px;
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
+    background-image: url(images/shiny-metal-plate-grunge-background.jpg);
+    background-position: 10px;
+    filter: brightness(40%);
+     /* Apply blur effect to the area behind the element */
     border-radius: 10px; /* Rounded corners for a softer look */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
+    border: 1px solid rgba(44, 32, 32, 0.973); /* Subtle border to enhance the glass effect */
      /* Adjust padding as needed */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white;
@@ -326,8 +330,10 @@ button {
     padding-bottom: 15px;
     position: relative;
     z-index: 1;
-
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    background-image: url(images/shiny-metal-plate-grunge-background.jpg);
+    background-position: 10px;
+    filter: brightness(40%);
+    /* Semi-transparent white */
     backdrop-filter: blur(10px); /* Apply blur effect to the area behind the element */
     border-radius: 10px; /* Rounded corners for a softer look */
     border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border to enhance the glass effect */
@@ -368,6 +374,7 @@ button {
     width: 50px;
     height: 50px;
     margin: 5px;
+    
 
     display: flex;
     align-items: center;
@@ -385,7 +392,8 @@ button {
 }
 
 #setup input {
-    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    
+    background: rgba(255, 255, 255, 0.1); 
     border-radius: 15px; /* Rounded corners */
     backdrop-filter: blur(10px); /* Blur the background behind the element */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
@@ -420,10 +428,13 @@ button {
 
 .bottom-btn {
     border: 4px solid #333; /* Remove default border */
-    
+    border-radius: 50%;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 -2px 5px rgba(255, 255, 255, 0.6);
     background-color: grey;
     color: white;
     font-size: 16px;
+    width: 65px;
+    height: 65px;
+    
 }
